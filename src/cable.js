@@ -65,12 +65,16 @@ export default class Cable {
       const channelName = name || subscription.channel;
 
       if (this._channels.subscriptions[channelName]) {
-        try {
-          const projectId = JSON.parse(this._channels.subscriptions[channelName].identifier)?.project_id
-          if (subscription.project_id === projectId) {
-            return
-          }
-        } catch (e) {}
+        if (subscription.project_id !== undefined) {
+          try {
+            const projectId = JSON.parse(this._channels.subscriptions[channelName].identifier)?.project_id
+            if (subscription.project_id === projectId) {
+              return
+            }
+          } catch (e) {}
+        } else {
+          return;
+        }
       }
 
       if (Object.keys(this._channels.subscriptions).length) {
