@@ -64,6 +64,22 @@ export default class Cable {
     if (this._cable) {
       const channelName = name || subscription.channel;
 
+      if (this._channels.subscriptions[channelName]) {
+        try {
+          const projectId = JSON.parse(this._channels.subscriptions[channelName].identifier)?.project_id
+          if (subscription.project_id === projectId) {
+            return
+          }
+        } catch (e) {}
+      }
+
+      if (Object.keys(this._channels.subscriptions).length) {
+        Object.values(this._channels.subscriptions).forEach(subscription => {
+          subscription.unsubscribe()
+        })
+        this._channels.subscriptions = {}
+      }
+
       this._channels.subscriptions[channelName] =
         this._cable.subscriptions.create(subscription, {
           connected: () => {
