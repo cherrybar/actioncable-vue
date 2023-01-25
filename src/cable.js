@@ -89,8 +89,8 @@ export default class Cable {
           connected: () => {
             this._fireChannelEvent(channelName, this._channelConnected);
           },
-          disconnected: () => {
-            this._fireChannelEvent(channelName, this._channelDisconnected);
+          disconnected: (data) => {
+            this._fireChannelEvent(channelName, this._channelDisconnected, data);
           },
           rejected: () => {
             this._fireChannelEvent(channelName, this._subscriptionRejected);
