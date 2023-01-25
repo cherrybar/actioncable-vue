@@ -162,9 +162,9 @@ export default class Cable {
    * Called when a subscription to an Action Cable server channel disconnects. Calls disconnected on the component channel
    * @param {Object} channel - The component channel
    */
-  _channelDisconnected(channel) {
+  _channelDisconnected(channel, data) {
     if (channel.disconnected) {
-      channel.disconnected.call(this._contexts[channel._uid].context);
+      channel.disconnected.call(this._contexts[channel._uid].context, data);
     }
 
     this._logger.log(
